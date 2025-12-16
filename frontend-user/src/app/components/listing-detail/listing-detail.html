@@ -1,0 +1,59 @@
+<div class="listing-detail-container">
+  <div *ngIf="loading" class="loading">Cargando...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && listing" class="listing-detail">
+    <button class="back-button" (click)="router.navigate(['/listings'])">← Volver</button>
+
+    <div class="listing-header">
+      <h1>{{ listing.title }}</h1>
+      <p class="address">{{ listing.address }}</p>
+    </div>
+
+    <div class="listing-content">
+      <div class="listing-main">
+        <div class="listing-images">
+          <img 
+            *ngFor="let image of listing.images; let i = index"
+            [src]="image || 'https://via.placeholder.com/600x400'" 
+            [alt]="listing.title + ' ' + (i + 1)"
+          />
+        </div>
+        <div class="listing-description">
+          <h2>Descripción</h2>
+          <p>{{ listing.description }}</p>
+        </div>
+      </div>
+
+      <div class="booking-sidebar">
+        <div class="price-card">
+          <div class="price">
+            <span class="amount">${{ listing.pricePerNight }}</span>
+            <span class="period">/ noche</span>
+          </div>
+          <p class="host">Anfitrión: {{ listing.host?.name || 'N/A' }}</p>
+        </div>
+
+        <div *ngIf="isAuthenticated" class="booking-form">
+          <h3>Reservar</h3>
+          <form (ngSubmit)="onBook()">
+            <div class="form-group">
+              <label>Fecha de entrada</label>
+              <input type="date" [(ngModel)]="checkIn" name="checkIn" required />
+            </div>
+            <div class="form-group">
+              <label>Fecha de salida</label>
+              <input type="date" [(ngModel)]="checkOut" name="checkOut" required />
+            </div>
+            <div *ngIf="bookingError" class="error-message">{{ bookingError }}</div>
+            <div *ngIf="bookingSuccess" class="success-message">¡Reserva creada exitosamente!</div>
+            <button type="submit" class="btn-primary">Reservar</button>
+          </form>
+        </div>
+        <div *ngIf="!isAuthenticated" class="login-prompt">
+          <p>Debes <a routerLink="/login">iniciar sesión</a> para hacer una reserva</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<header class="app-header" *ngIf="authService.isAuthenticated()">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a routerLink="/dashboard">🔧 Panel Admin</a>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/dashboard">Dashboard</a>
+      <a routerLink="/listings">Alojamientos</a>
+      <span class="user-info">{{ authService.getCurrentUser()?.name }}</span>
+      <button (click)="logout()" class="btn-logout">Cerrar Sesión</button>
+    </div>
+  </nav>
+</header>
+
+<main class="app-main">
+  <router-outlet />
+</main>

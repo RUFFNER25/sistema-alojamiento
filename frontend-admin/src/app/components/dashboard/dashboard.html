@@ -1,0 +1,42 @@
+<div class="dashboard-container">
+  <h1>Dashboard</h1>
+
+  <div *ngIf="loading" class="loading">Cargando datos...</div>
+
+  <div *ngIf="!loading" class="dashboard-content">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Alojamientos</h3>
+        <p class="stat-value">{{ stats.totalListings }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Total Reservas</h3>
+        <p class="stat-value">{{ stats.totalBookings }}</p>
+      </div>
+      <div class="stat-card">
+        <h3>Ingresos Totales</h3>
+        <p class="stat-value">${{ stats.totalRevenue }}</p>
+      </div>
+    </div>
+
+    <div class="actions-section">
+      <a routerLink="/listings" class="btn-primary">Gestionar Alojamientos</a>
+    </div>
+
+    <div class="recent-section">
+      <h2>Reservas Recientes</h2>
+      <div *ngIf="bookings.length === 0" class="no-data">
+        <p>No hay reservas aún</p>
+      </div>
+      <div *ngIf="bookings.length > 0" class="bookings-list">
+        <div *ngFor="let booking of bookings.slice(0, 5)" class="booking-item">
+          <div>
+            <strong>{{ booking.listing?.title || 'Alojamiento' }}</strong>
+            <p>{{ formatDate(booking.checkIn) }} - {{ formatDate(booking.checkOut) }}</p>
+          </div>
+          <div class="booking-price">${{ booking.totalPrice }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

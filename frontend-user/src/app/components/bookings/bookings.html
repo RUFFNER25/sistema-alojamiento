@@ -1,0 +1,29 @@
+<div class="bookings-container">
+  <h1>Mis Reservas</h1>
+
+  <div *ngIf="loading" class="loading">Cargando reservas...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && !error && bookings.length > 0" class="bookings-list">
+    <div *ngFor="let booking of bookings" class="booking-card">
+      <div class="booking-info">
+        <h3>{{ booking.listing?.title || 'Alojamiento' }}</h3>
+        <p class="booking-dates">
+          <strong>Entrada:</strong> {{ formatDate(booking.checkIn) }} - 
+          <strong>Salida:</strong> {{ formatDate(booking.checkOut) }}
+        </p>
+        <p class="booking-price">
+          <strong>Total:</strong> ${{ booking.totalPrice }}
+        </p>
+        <p class="booking-address" *ngIf="booking.listing?.address">
+          {{ booking.listing.address }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && !error && bookings.length === 0" class="no-bookings">
+    <p>No tienes reservas aún.</p>
+    <a routerLink="/listings" class="btn-primary">Explorar alojamientos</a>
+  </div>
+</div>

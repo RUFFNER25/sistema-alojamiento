@@ -1,0 +1,30 @@
+<div class="listings-container">
+  <h1>Alojamientos Disponibles</h1>
+
+  <div *ngIf="loading" class="loading">Cargando alojamientos...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="listings-grid">
+    <div *ngFor="let listing of listings" class="listing-card" [routerLink]="['/listing', listing._id]">
+      <div class="listing-image">
+        <img 
+          [src]="listing.images && listing.images.length > 0 ? listing.images[0] : 'https://via.placeholder.com/300x200'" 
+          [alt]="listing.title"
+        />
+      </div>
+      <div class="listing-info">
+        <h3>{{ listing.title }}</h3>
+        <p class="listing-address">{{ listing.address }}</p>
+        <p class="listing-description">{{ listing.description }}</p>
+        <div class="listing-footer">
+          <span class="price">${{ listing.pricePerNight }} / noche</span>
+          <span class="host">Anfitrión: {{ listing.host?.name || 'N/A' }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="!loading && listings.length === 0" class="no-listings">
+    <p>No hay alojamientos disponibles en este momento.</p>
+  </div>
+</div>

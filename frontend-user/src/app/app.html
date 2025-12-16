@@ -1,0 +1,23 @@
+<header class="app-header">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <a routerLink="/listings">🏠 Airbnb Clone</a>
+    </div>
+    <div class="nav-links">
+      <a routerLink="/listings">Alojamientos</a>
+      <a routerLink="/bookings" *ngIf="authService.isAuthenticated()">Mis Reservas</a>
+      <a routerLink="/login" *ngIf="!authService.isAuthenticated()">Iniciar Sesión</a>
+      <a routerLink="/register" *ngIf="!authService.isAuthenticated()">Registrarse</a>
+      <span *ngIf="authService.isAuthenticated()" class="user-info">
+        {{ authService.getCurrentUser()?.name }}
+      </span>
+      <button *ngIf="authService.isAuthenticated()" (click)="logout()" class="btn-logout">
+        Cerrar Sesión
+      </button>
+    </div>
+  </nav>
+</header>
+
+<main class="app-main">
+  <router-outlet />
+</main>
