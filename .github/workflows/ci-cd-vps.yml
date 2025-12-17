@@ -1,4 +1,4 @@
-name: CI-CD VPS
+name: CI-CD VPS Contabo
 
 on:
   push:
@@ -36,16 +36,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Deploy to VPS
+      - name: Deploy to VPS Contabo
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
           script: |
-            cd /ruta/a/tu/proyecto
+            cd ${{ secrets.VPS_PROJECT_PATH }}
+            echo "🔄 Actualizando código desde GitHub..."
             git pull origin main
+            echo "🛑 Deteniendo contenedores..."
             docker-compose down
-            docker-compose build
+            echo "🔨 Construyendo imágenes..."
+            docker-compose build --no-cache
+            echo "🚀 Iniciando contenedores..."
             docker-compose up -d
-
+            echo "✅ Despliegue completado!"
+            echo "📊 Estado de contenedores:"
+            docker-compose ps
