@@ -18,7 +18,7 @@
         <p class="listing-description">{{ listing.description }}</p>
         <div class="listing-footer">
           <span class="price">${{ listing.pricePerNight }} / noche</span>
-          <span class="host">Anfitrión: {{ listing.host?.name || 'N/A' }}</span>
+          <span class="host">Anfitrión: {{ (listing.host && listing.host.name) || 'N/A' }}</span>
         </div>
       </div>
     </div>

@@ -32,6 +32,10 @@ export class ListingDetail implements OnInit {
     this.isAuthenticated = this.authService.isAuthenticated();
   }
 
+  goBack() {
+    this.router.navigate(['/listings']);
+  }
+
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {

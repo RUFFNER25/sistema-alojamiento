@@ -48,21 +48,27 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./backend
-          tags: ${{ secrets.DOCKER_REGISTRY }}/airbnb-backend:latest
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-backend:latest
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-backend:${{ github.sha }}
           push: true
 
       - name: Build and push frontend-user
         uses: docker/build-push-action@v6
         with:
           context: ./frontend-user
-          tags: ${{ secrets.DOCKER_REGISTRY }}/airbnb-frontend-user:latest
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-frontend-user:latest
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-frontend-user:${{ github.sha }}
           push: true
 
       - name: Build and push frontend-admin
         uses: docker/build-push-action@v6
         with:
           context: ./frontend-admin
-          tags: ${{ secrets.DOCKER_REGISTRY }}/airbnb-frontend-admin:latest
+          tags: |
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-frontend-admin:latest
+            ${{ secrets.DOCKER_REGISTRY }}/${{ secrets.DOCKER_USERNAME }}/airbnb-frontend-admin:${{ github.sha }}
           push: true
 
   terraform-deploy:

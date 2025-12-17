@@ -1,0 +1,51 @@
+name: CI-CD VPS
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        service: [backend, frontend-user, frontend-admin]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: ${{ matrix.service }}
+        run: npm install
+
+      - name: Run tests
+        working-directory: ${{ matrix.service }}
+        run: npm test --if-present
+
+  deploy-to-vps:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /ruta/a/tu/proyecto
+            git pull origin main
+            docker-compose down
+            docker-compose build
+            docker-compose up -d
+
