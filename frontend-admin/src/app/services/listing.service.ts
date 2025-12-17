@@ -30,7 +30,7 @@ export interface CreateListing {
   providedIn: 'root'
 })
 export class ListingService {
-  private apiUrl = 'http://localhost:3003';
+  private apiUrl = 'http://backend:3000';
 
   constructor(
     private http: HttpClient,
